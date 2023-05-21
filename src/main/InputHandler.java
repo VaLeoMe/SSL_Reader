@@ -6,13 +6,27 @@ import static main.URLVerifier.verifyURL;
 
 public class InputHandler {
 
+    private static final Scanner in = new Scanner(System.in);
+
     private InputHandler() {}
 
     public static String getUserInputUntilValid() {
-        System.out.println("The URL you entered is not valid, please enter a new one:");
-        String newInput = getAndReturnUserInput();
 
-        return newInput;
+        String userInput = getAndReturnUserInput();
+        boolean validInput = false;
+
+        while (!validInput) {
+            try {
+                verifyURL(userInput);
+                validInput = true;
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+                System.out.println("Please enter a new one:");
+                userInput = getAndReturnUserInput();
+            }
+        }
+
+        return userInput;
     }
 
     public static void logInputInstructions() {
@@ -20,18 +34,9 @@ public class InputHandler {
         System.out.println("Please enter a URL to retrieve its SSL certificate information:");
     }
 
-    public static String getAndReturnUserInput() {
+    private static String getAndReturnUserInput() {
 
-        Scanner in = new Scanner(System.in);
         return in.nextLine();
 
-    }
-
-    public static void verifyUserInput(String userInput) {
-        try {
-            verifyURL(userInput);
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
     }
 }
