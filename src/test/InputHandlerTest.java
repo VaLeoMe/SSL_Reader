@@ -35,15 +35,15 @@ class InputHandlerTest {
     }
 
     @Test
-    void test_logInputInstructions() {
+    void testLogInputInstructions() {
         logInputInstructions();
         assertTrue(outContent.toString().contains(
-                "Welcome to the SSL certificate reader.\n" +
-                "You can enter a URL to retrieve its SSL certificate information."));
+                "Welcome to the SSL certificate reader! :-)\n" +
+                "Please enter a URL to retrieve its SSL certificate information:"));
     }
 
     @Test
-    void test_getAndReturnUserInput() {
+    void testGetAndReturnUserInput() {
         String result = getAndReturnUserInput();
         assertEquals(TEST_INPUT, result);
     }

@@ -1,13 +1,11 @@
 package main;
 
-import java.util.logging.Logger;
+import static main.InputHandler.logInputInstructions;
 
 public class Application {
 
-    private static final Logger logger = Logger.getLogger(Application.class.getName());
-
     public static void main(String[] args) {
-        System.out.println("Hello world!");
-        logger.info("Hello world!");
+        logInputInstructions();
+
     }
 }
