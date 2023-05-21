@@ -8,7 +8,6 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.PrintStream;
-import java.util.concurrent.atomic.AtomicReference;
 
 import static main.InputHandler.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -39,7 +38,7 @@ class InputHandlerTest {
 
     @Test
     void testLogInputInstructions() {
-        logInputInstructions();
+        printInputInstructions();
         assertTrue(outContent.toString().contains(
                 "Welcome to the SSL certificate reader! :-)\n" +
                 "Please enter a URL to retrieve its SSL certificate information:"));
