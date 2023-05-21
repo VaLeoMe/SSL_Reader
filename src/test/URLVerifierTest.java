@@ -14,12 +14,12 @@ class URLVerifierTest {
     private static final String INVALID_URI = "https://www. swisscom.ch";
 
     @Test
-    void test_VerifyURL_validURL() {
+    void test_verifyURL_validURL() {
         assertDoesNotThrow(() -> verifyURL(VALID_URL));
     }
 
     @Test
-    void test_VerifyURL_invalidURL() {
+    void test_verifyURL_invalidURL() {
 
         InvalidURLException exception = assertThrows(InvalidURLException.class, () -> verifyURL(INVALID_URL));
 
@@ -28,7 +28,7 @@ class URLVerifierTest {
     }
 
     @Test
-    void test_VerifyURL_invalidURI() {
+    void test_verifyURL_invalidURI() {
 
         InvalidURIException exception = assertThrows(InvalidURIException.class, () -> verifyURL(INVALID_URI));
 

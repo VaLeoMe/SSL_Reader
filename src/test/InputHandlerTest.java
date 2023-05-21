@@ -10,19 +10,20 @@ import java.io.InputStream;
 import java.io.PrintStream;
 
 import static main.InputHandler.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 class InputHandlerTest {
 
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-    private static final InputStream originalIn = System.in;
+    private static final InputStream actualIn = System.in;
+    private static final PrintStream actualOut = System.out;
 
     private static final String TEST_INPUT = "Some input String.";
 
     @BeforeEach
     void setUpStreams() {
 
+        outContent.reset();
         System.setOut(new PrintStream(outContent));
 
         InputStream in = new ByteArrayInputStream(TEST_INPUT.getBytes());
@@ -31,7 +32,8 @@ class InputHandlerTest {
 
     @AfterEach
     void restoreStreams() {
-        System.setIn(originalIn);
+        System.setIn(actualIn);
+        System.setOut(actualOut);
     }
 
     @Test
@@ -43,9 +45,21 @@ class InputHandlerTest {
     }
 
     @Test
-    void testGetAndReturnUserInput() {
+    void test_GetAndReturnUserInput() {
         String result = getAndReturnUserInput();
         assertEquals(TEST_INPUT, result);
+    }
+
+    @Test
+    void test_verifyUserInput_validInput() {
+        assertDoesNotThrow(() -> verifyUserInput("https://www.swisscom.ch"));
+        assertTrue(outContent.toString().isEmpty());
+    }
+
+    @Test
+    void test_verifyUserInput_invalidInput() {
+        assertDoesNotThrow(() -> verifyUserInput("invalidInput"));
+        assertTrue(outContent.toString().length() > 0);
     }
 
 }
