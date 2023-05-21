@@ -46,35 +46,14 @@ class InputHandlerTest {
     }
 
     @Test
-    void test_GetAndReturnUserInput() {
-        String result = getAndReturnUserInput();
-        assertEquals(TEST_INPUT, result);
-    }
-
-    @Test
-    void test_verifyUserInput_validInput() {
-        assertDoesNotThrow(() -> verifyUserInput("https://www.swisscom.ch"));
-        assertTrue(outContent.toString().isEmpty());
-    }
-
-    @Test
-    void test_verifyUserInput_invalidInput() {
-        assertDoesNotThrow(() -> verifyUserInput("invalidInput"));
-        assertTrue(outContent.toString().length() > 0);
-    }
-
-    @Test
     void test_getUserInputUntilValid() {
 
-        AtomicReference<String> result = new AtomicReference<>();
-        assertDoesNotThrow(() -> result.set(getUserInputUntilValid()));
-
-        InputStream in = new ByteArrayInputStream("invalid".getBytes());
-        System.setIn(in);
-        assertEquals("The URL you entered is not valid, please enter a new one:", outContent.toString());
-        in = new ByteArrayInputStream("https://www.swisscom.ch".getBytes());
+        InputStream in = new ByteArrayInputStream(("invalid\nhttps://www.swisscom.ch").getBytes());
         System.setIn(in);
 
+        String result = getUserInputUntilValid();
+
+        assertTrue(outContent.toString().contains("Please enter a new one:"));
         assertEquals("https://www.swisscom.ch", result);
     }
 

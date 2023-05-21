@@ -6,7 +6,6 @@ public class Application {
 
     public static void main(String[] args) {
         logInputInstructions();
-        String userInput = getAndReturnUserInput();
-        verifyUserInput(userInput);
+        String userInput = getUserInputUntilValid();
     }
 }
