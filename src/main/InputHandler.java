@@ -9,8 +9,10 @@ public class InputHandler {
     private InputHandler() {}
 
     public static String getUserInputUntilValid() {
-        System.out.println("logic coming");
-        return "result";
+        System.out.println("The URL you entered is not valid, please enter a new one:");
+        String newInput = getAndReturnUserInput();
+
+        return newInput;
     }
 
     public static void logInputInstructions() {
