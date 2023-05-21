@@ -13,7 +13,6 @@ public class InputHandler {
 
     public static String getAndReturnUserInput() {
         Scanner in = new Scanner(System.in);
-
         return in.nextLine();
     }
 }
