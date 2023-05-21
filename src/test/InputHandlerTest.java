@@ -8,6 +8,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.PrintStream;
+import java.util.concurrent.atomic.AtomicReference;
 
 import static main.InputHandler.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -60,6 +61,21 @@ class InputHandlerTest {
     void test_verifyUserInput_invalidInput() {
         assertDoesNotThrow(() -> verifyUserInput("invalidInput"));
         assertTrue(outContent.toString().length() > 0);
+    }
+
+    @Test
+    void test_getUserInputUntilValid() {
+
+        AtomicReference<String> result = new AtomicReference<>();
+        assertDoesNotThrow(() -> result.set(getUserInputUntilValid()));
+
+        InputStream in = new ByteArrayInputStream("invalid".getBytes());
+        System.setIn(in);
+        assertTrue(outContent.toString().length() > 0);
+        in = new ByteArrayInputStream("https://www.swisscom.ch".getBytes());
+        System.setIn(in);
+
+        assertEquals("https://www.swisscom.ch", result);
     }
 
 }
