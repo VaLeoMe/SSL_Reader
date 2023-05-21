@@ -71,7 +71,7 @@ class InputHandlerTest {
 
         InputStream in = new ByteArrayInputStream("invalid".getBytes());
         System.setIn(in);
-        assertTrue(outContent.toString().length() > 0);
+        assertEquals("The URL you entered is not valid, please enter a new one:", outContent.toString());
         in = new ByteArrayInputStream("https://www.swisscom.ch".getBytes());
         System.setIn(in);
 
