@@ -2,6 +2,8 @@ package main;
 
 import java.util.Scanner;
 
+import static main.URLVerifier.verifyURL;
+
 public class InputHandler {
 
     private InputHandler() {}
@@ -12,7 +14,18 @@ public class InputHandler {
     }
 
     public static String getAndReturnUserInput() {
+
         Scanner in = new Scanner(System.in);
         return in.nextLine();
+
+    }
+
+    public static void verifyUserInput(String userInput) {
+        try {
+            verifyURL(userInput);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
     }
 }
