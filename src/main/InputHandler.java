@@ -8,6 +8,11 @@ public class InputHandler {
 
     private InputHandler() {}
 
+    public static String getUserInputUntilValid() {
+        System.out.println("logic coming");
+        return "result";
+    }
+
     public static void logInputInstructions() {
         System.out.println("Welcome to the SSL certificate reader! :-)");
         System.out.println("Please enter a URL to retrieve its SSL certificate information:");
