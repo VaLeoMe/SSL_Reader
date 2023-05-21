@@ -7,6 +7,8 @@ import java.util.List;
 
 public class SSLCertificateReader {
 
+    private SSLCertificateReader() {}
+
     public static List<Certificate> readAndReturnSSLCertificates(URL url) {
         return new ArrayList<>();
     }

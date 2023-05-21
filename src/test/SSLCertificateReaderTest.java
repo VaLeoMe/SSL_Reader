@@ -3,9 +3,7 @@ package test;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
 import java.io.PrintStream;
 import java.net.URL;
 import java.security.cert.Certificate;
@@ -31,15 +29,11 @@ class SSLCertificateReaderTest {
     @Test
     void test_readAndReturnSSLCertificates() {
 
-        URL url;
+        AtomicReference<URL> url = new AtomicReference<>();
         AtomicReference<List<Certificate>> certificates = new AtomicReference<>();
 
-        try {
-            url = new URL("https://www.swisscom.ch");
-            assertDoesNotThrow(() -> certificates.set(readAndReturnSSLCertificates(url)));
-        } catch (Exception e) {
-            new RuntimeException(e.getMessage());
-        }
+        assertDoesNotThrow(() -> url.set(new URL("https://www.swisscom.ch")));
+        assertDoesNotThrow(() -> certificates.set(readAndReturnSSLCertificates(url.get())));
 
         assertFalse(certificates.get().isEmpty());
 
