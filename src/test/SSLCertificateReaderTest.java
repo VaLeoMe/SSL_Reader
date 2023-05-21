@@ -7,8 +7,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.net.URL;
 import java.security.cert.Certificate;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
 import static main.SSLCertificateReader.*;
@@ -27,25 +25,38 @@ class SSLCertificateReaderTest {
     }
 
     @Test
-    void test_readAndReturnSSLCertificates() {
+    void test_readAndReturnSSLCertificates_validURL() {
 
         AtomicReference<URL> url = new AtomicReference<>();
-        AtomicReference<List<Certificate>> certificates = new AtomicReference<>();
+        AtomicReference<Certificate[]> certificates = new AtomicReference<>();
 
         assertDoesNotThrow(() -> url.set(new URL("https://www.swisscom.ch")));
         assertDoesNotThrow(() -> certificates.set(readAndReturnSSLCertificates(url.get())));
 
-        assertFalse(certificates.get().isEmpty());
+        assertTrue(certificates.get().length > 0);
+
+    }
+
+    @Test
+    void test_readAndReturnSSLCertificates_invalidURL() {
+
+        AtomicReference<URL> url = new AtomicReference<>();
+        AtomicReference<Certificate[]> certificates = new AtomicReference<>();
+
+        assertDoesNotThrow(() -> url.set(new URL("https://www.notswisscom.ch")));
+        assertDoesNotThrow(() -> certificates.set(readAndReturnSSLCertificates(url.get())));
+
+        assertTrue(certificates.get().length == 0);
 
     }
 
     @Test
     void test_printInfoOfSSLCertificates() {
 
-        List<Certificate> certificates = new ArrayList<>();
+        Certificate[] certificates = new Certificate[10];
 
-        assertDoesNotThrow(() -> printInfoOfSSLCertificates(certificates));
-        assertTrue(outContent.toString().length() > 0);
+        assertThrows(NullPointerException.class, () -> printInfoOfSSLCertificates(certificates));
+        assertTrue(outContent.toString().isEmpty());
 
     }
 }

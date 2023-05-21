@@ -4,35 +4,43 @@ import main.exception.InvalidURIException;
 import main.exception.InvalidURLException;
 import org.junit.jupiter.api.Test;
 
-import static main.URLVerifier.verifyURL;
+import java.net.URL;
+import java.util.concurrent.atomic.AtomicReference;
+
+import static main.URLVerifier.getURLFromString;
 import static org.junit.jupiter.api.Assertions.*;
 
 class URLVerifierTest {
 
-    private static final String VALID_URL = "https://www.swisscom.ch";
-    private static final String INVALID_URL = "invalidURL";
+    private static final String VALID_URI_URL = "https://www.swisscom.ch";
+    private static final String INVALID_URL = "www.swisscom.ch";
     private static final String INVALID_URI = "https://www. swisscom.ch";
 
     @Test
-    void test_verifyURL_validURL() {
-        assertDoesNotThrow(() -> verifyURL(VALID_URL));
-    }
+    void test_getURIFromString_validInput() {
 
-    @Test
-    void test_verifyURL_invalidURL() {
+        AtomicReference<URL> url = new AtomicReference<>();
+        assertDoesNotThrow(() -> url.set(getURLFromString(VALID_URI_URL)));
 
-        InvalidURLException exception = assertThrows(InvalidURLException.class, () -> verifyURL(INVALID_URL));
-
-        assertEquals("The provided URL is not valid", exception.getMessage());
+        assertEquals(URL.class, url.get().getClass());
 
     }
 
     @Test
-    void test_verifyURL_invalidURI() {
+    void test_getURLFromString_invalidURL() {
 
-        InvalidURIException exception = assertThrows(InvalidURIException.class, () -> verifyURL(INVALID_URI));
+        InvalidURLException exception = assertThrows(InvalidURLException.class, () -> getURLFromString(INVALID_URL));
 
-        assertEquals("The provided URL does not form a valid URI", exception.getMessage());
+        assertEquals("The provided String does not form a valid URL.", exception.getMessage());
+
+    }
+
+    @Test
+    void test_getURLFromString_invalidURI() {
+
+        InvalidURIException exception = assertThrows(InvalidURIException.class, () -> getURLFromString(INVALID_URI));
+
+        assertEquals("The provided String does not form a valid URI.", exception.getMessage());
 
     }
 
