@@ -1,8 +1,9 @@
 package main;
 
+import java.net.URL;
 import java.util.Scanner;
 
-import static main.URLVerifier.verifyURL;
+import static main.URLVerifier.getURLFromString;
 
 public class InputHandler {
 
@@ -15,28 +16,26 @@ public class InputHandler {
         System.out.println("Please enter a URL to retrieve its SSL certificate information:");
     }
 
-    public static String getUserInputUntilValid() {
+    public static URL getValidURLFromUser() {
 
         String userInput = getAndReturnUserInput();
         boolean validInput = false;
+        URL url = null;
 
         while (!validInput) {
             try {
-                verifyURL(userInput);
+                url = getURLFromString(userInput);
                 validInput = true;
             } catch (Exception e) {
                 System.out.println(e.getMessage());
-                System.out.println("Please enter a new one:");
+                System.out.println("Please enter a new URL:");
                 userInput = getAndReturnUserInput();
             }
         }
-
-        return userInput;
+        return url;
     }
 
     private static String getAndReturnUserInput() {
-
         return in.nextLine();
-
     }
 }

@@ -8,6 +8,8 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.PrintStream;
+import java.net.URL;
+import java.util.concurrent.atomic.AtomicReference;
 
 import static main.InputHandler.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -45,15 +47,16 @@ class InputHandlerTest {
     }
 
     @Test
-    void test_getUserInputUntilValid() {
+    void test_getValidURLFromUser() {
 
-        InputStream in = new ByteArrayInputStream(("invalid\nhttps://www.swisscom.ch").getBytes());
+        InputStream in = new ByteArrayInputStream(("invalid\nhttps://www.swisscom.ch\n").getBytes());
         System.setIn(in);
 
-        String result = getUserInputUntilValid();
+        AtomicReference<URL> url = new AtomicReference<>();
+        assertDoesNotThrow(() -> url.set(getValidURLFromUser()));
 
-        assertTrue(outContent.toString().contains("Please enter a new one:"));
-        assertEquals("https://www.swisscom.ch", result);
+        assertTrue(outContent.toString().contains("Please enter a new URL:"));
+        assertEquals("https://www.swisscom.ch", url.get().toString());
     }
 
 }
