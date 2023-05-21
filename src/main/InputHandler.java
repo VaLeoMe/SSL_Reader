@@ -7,9 +7,13 @@ import static main.URLVerifier.getURLFromString;
 
 public class InputHandler {
 
-    private static final Scanner in = new Scanner(System.in);
+    private static Scanner in = new Scanner(System.in);
 
     private InputHandler() {}
+
+    public static void setScanner(Scanner scanner) {
+        in = scanner;
+    }
 
     public static void printInputInstructions() {
         System.out.println("Welcome to the SSL certificate reader! :-)");
@@ -18,24 +22,22 @@ public class InputHandler {
 
     public static URL getValidURLFromUser() {
 
-        String userInput = getAndReturnUserInput();
-        boolean validInput = false;
+        String userInput = getNewUserInput();
         URL url = null;
 
-        while (!validInput) {
+        while (url == null) {
             try {
                 url = getURLFromString(userInput);
-                validInput = true;
             } catch (Exception e) {
                 System.out.println(e.getMessage());
                 System.out.println("Please enter a new URL:");
-                userInput = getAndReturnUserInput();
+                userInput = getNewUserInput();
             }
         }
         return url;
     }
 
-    private static String getAndReturnUserInput() {
+    private static String getNewUserInput() {
         return in.nextLine();
     }
 }
