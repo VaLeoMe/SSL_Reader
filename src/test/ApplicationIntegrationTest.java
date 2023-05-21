@@ -14,9 +14,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ApplicationIntegrationTest {
 
-    private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-    private final PrintStream originalOut = System.out;
-    private final InputStream originalIn = System.in;
+    private static final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+    private static final PrintStream originalOut = System.out;
+    private static final InputStream originalIn = System.in;
 
     @BeforeEach
     void setUpStreams() {
