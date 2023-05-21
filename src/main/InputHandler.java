@@ -10,6 +10,11 @@ public class InputHandler {
 
     private InputHandler() {}
 
+    public static void printInputInstructions() {
+        System.out.println("Welcome to the SSL certificate reader! :-)");
+        System.out.println("Please enter a URL to retrieve its SSL certificate information:");
+    }
+
     public static String getUserInputUntilValid() {
 
         String userInput = getAndReturnUserInput();
@@ -27,11 +32,6 @@ public class InputHandler {
         }
 
         return userInput;
-    }
-
-    public static void logInputInstructions() {
-        System.out.println("Welcome to the SSL certificate reader! :-)");
-        System.out.println("Please enter a URL to retrieve its SSL certificate information:");
     }
 
     private static String getAndReturnUserInput() {
