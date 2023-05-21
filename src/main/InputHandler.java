@@ -1,12 +1,19 @@
 package main;
 
+import java.util.Scanner;
+
 public class InputHandler {
 
-    public static void logInputInstructions() {
+    private InputHandler() {}
 
+    public static void logInputInstructions() {
+        System.out.println("Welcome to the SSL certificate reader! :-)");
+        System.out.println("Please enter a URL to retrieve its SSL certificate information:");
     }
 
     public static String getAndReturnUserInput() {
-        return "";
+        Scanner in = new Scanner(System.in);
+
+        return in.nextLine();
     }
 }
