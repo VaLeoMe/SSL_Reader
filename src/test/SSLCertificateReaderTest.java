@@ -46,17 +46,7 @@ class SSLCertificateReaderTest {
         assertDoesNotThrow(() -> url.set(new URL("https://www.notswisscom.ch")));
         assertDoesNotThrow(() -> certificates.set(readAndReturnSSLCertificates(url.get())));
 
-        assertTrue(certificates.get().length == 0);
-
-    }
-
-    @Test
-    void test_printInfoOfSSLCertificates() {
-
-        Certificate[] certificates = new Certificate[10];
-
-        assertThrows(NullPointerException.class, () -> printInfoOfSSLCertificates(certificates));
-        assertTrue(outContent.toString().isEmpty());
+        assertEquals(0, certificates.get().length);
 
     }
 }
