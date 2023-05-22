@@ -1,16 +1,13 @@
 package main;
 
 import javax.net.ssl.HttpsURLConnection;
-import java.math.BigInteger;
 import java.net.URL;
 import java.security.cert.Certificate;
 import java.security.cert.CertificateParsingException;
 import java.security.cert.X509Certificate;
-import java.security.interfaces.RSAPublicKey;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class SSLCertificateReader {
 
@@ -39,54 +36,28 @@ public class SSLCertificateReader {
         }
     }
 
-    public static void printCertificateInfo(X509Certificate certificate) {
-        System.out.printf("%-17s%-36s%n", "Common Name:", getCommonName(certificate));
-        System.out.printf("%-17s%-36s%n", "", "");
-        System.out.printf("%-17s%-36s%n", "Issuer:", certificate.getIssuerX500Principal().getName());
-        System.out.printf("%-17s%-36s%n", "", "");
-        System.out.printf("%-17s%2td.%2$tm.%2$ty - %3$td.%3$tm.%3$ty %n", "Validity Period:", certificate.getNotBefore(), certificate.getNotAfter());
-        System.out.printf("%-17s%-36s%n", "", "");
-        System.out.printf("%-17s%-36s%n", "Signature:", certificate.getSignature());
-        System.out.printf("%-17s%-36s%n", "", "");
-        printSubjectAlternativeNames(certificate);
-        System.out.printf("%-17s%-36s%n", "", "");
-        System.out.printf("%-17s%-36s%n", "Key Usage:", getKeyUsage(certificate));
-        System.out.printf("%-17s%-36s%n", "", "");
-        System.out.printf("%-17s%-36s%n", "Public Key:", certificate.getPublicKey());
-        //dissectAndPrintPublicKey(certificate);
-        //System.out.println("Common Name: " + getCommonName(certificate));
-        //System.out.println("Issuer: " + certificate.getIssuerX500Principal().getName());
-        //System.out.print("Validity Period: ");
-        //System.out.printf("%1$td.%1$tm.%1$ty - %2$td.%2$tm.%2$ty %n", certificate.getNotBefore(), certificate.getNotAfter());
-        //System.out.println("Signature: " + certificate.getSignature());
-        //System.out.println("Subject Alternative Names: " + getSubjectAlternativeNames(certificate));
-        //System.out.println("Key Usage: " + getKeyUsage(certificate));
-        //System.out.println("Public Key: " + certificate.getPublicKey());
+    private static void printCertificateInfo(X509Certificate certificate) {
+        System.out.printf("%-19s%-36s%n", "Common Name:", getCommonName(certificate));
+        System.out.printf("%-19s%-36s%n", "", "");
+        System.out.printf("%-19s%-36s%n", "Issuer:", certificate.getIssuerX500Principal().getName());
+        System.out.printf("%-19s%-36s%n", "", "");
+        System.out.printf("%-19s%2td.%2$tm.%2$ty - %3$td.%3$tm.%3$ty %n", "Validity Period:", certificate.getNotBefore(), certificate.getNotAfter());
+        System.out.printf("%-19s%-36s%n", "", "");
+        System.out.printf("%-19s%-36s%n", "Signature:", certificate.getSignature());
+        System.out.printf("%-19s%-36s%n", "", "");
+        System.out.printf("%-19s%-36s%n", "Alternative Names:", getSubjectAlternativeNames(certificate));
+        System.out.printf("%-19s%-36s%n", "", "");
+        System.out.printf("%-19s%-36s%n", "Key Usage:", getKeyUsage(certificate));
+        System.out.printf("%-19s%-36s%n", "", "");
+        System.out.printf("%-19s%-36s%n", "Public Key:", certificate.getPublicKey());
     }
 
     private static String getCommonName(X509Certificate certificate) {
         return certificate.getSubjectX500Principal().getName();
     }
 
-    private static void dissectAndPrintPublicKey(X509Certificate certificate){
-        RSAPublicKey rsaPublicKey = (RSAPublicKey) certificate.getPublicKey();
-        if (rsaPublicKey.getParams() == null) {
-            System.out.printf("  %-17s%-28s%n", "params:", "None");
-        } else {
-            System.out.printf("  %-17s%-28s%n", "params:", rsaPublicKey.getParams());
-        }
-        BigInteger modulus = rsaPublicKey.getModulus();
-        String modulusString = modulus.toString();
-        if (modulusString.length() > 20) {
-            modulusString = modulusString.substring(0, 20) + "...";
-        }
-        System.out.printf("  %-17s%-28s%n", "modulus:", modulusString);
-        System.out.printf("  %-17s%-28s%n", "public exponent:", rsaPublicKey.getPublicExponent());
-    }
+    private static void printSubjectAlternativeNames(X509Certificate certificate) {
 
-    public static void printSubjectAlternativeNames(X509Certificate certificate) {
-        System.out.printf("%-17s%-36s%n", "Subject Alter-:", getSubjectAlternativeNames(certificate));
-        System.out.printf("%-17s%-36s%n", "native Names", "");
     }
 
     private static String getSubjectAlternativeNames(X509Certificate certificate) {
@@ -106,29 +77,6 @@ public class SSLCertificateReader {
             return "Error";
         }
     }
-
-    //private static String getSubjectAlternativeNames(X509Certificate certificate) {
-    //    try {
-    //        Collection<List<?>> altNames = certificate.getSubjectAlternativeNames();
-    //        if (altNames == null) return "None";
-    //
-    //        Stream<String> altNamesStream = altNames.stream()
-    //                .map(name -> (String) name.get(1));
-//
-    //        int altNamesCount = (int) altNamesStream.count();
-    //
-    //        String suffix = (altNamesCount > 5) ? ", ..." : "";
-//
-    //        return altNamesStream
-    //                .limit(5)
-    //                .collect(Collectors.joining(", ")) + suffix;
-//
-    //    } catch (CertificateParsingException e) {
-    //        e.printStackTrace();
-    //        return "Error";
-    //    }
-    //}
-
 
     private static String getKeyUsage(X509Certificate certificate) {
         boolean[] keyUsage = certificate.getKeyUsage();
