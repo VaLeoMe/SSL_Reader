@@ -31,13 +31,28 @@ class ApplicationIntegrationTest {
     }
 
     @Test
-    void testMain() {
+    void testMain_Swisscom() {
         String testUrl = "https://www.swisscom.ch\n";
         InputStream in = new ByteArrayInputStream(testUrl.getBytes());
         System.setIn(in);
 
         Application.main(new String[0]);
 
+        assertTrue(outContent.toString().contains("Common Name:"));
+        assertTrue(outContent.toString().contains("Issuer:"));
+        assertTrue(outContent.toString().contains("Signature:"));
+        assertTrue(outContent.toString().contains("Key Usage:"));
         assertTrue(outContent.toString().contains("Public Key:"));
     }
+
+    //@Test
+    //void testMain_Youtube() {
+    //    String testUrl = "https://youtube.com\n";
+    //    InputStream in = new ByteArrayInputStream(testUrl.getBytes());
+    //    System.setIn(in);
+//
+    //    Application.main(new String[0]);
+//
+    //    assertTrue(outContent.toString().contains("Public Key:"));
+    //}
 }
