@@ -41,12 +41,9 @@ class SSLCertificateHelperTest {
     void testGetSSLCertificatesInvalidURL() {
 
         AtomicReference<URL> url = new AtomicReference<>();
-        AtomicReference<Certificate[]> certificates = new AtomicReference<>();
 
         assertDoesNotThrow(() -> url.set(new URL("https://www300.swisscom.ch")));
-        assertDoesNotThrow(() -> certificates.set(getSSLCertificates(url.get())));
-
-        assertEquals(0, certificates.get().length);
+        assertThrows(RuntimeException.class, () -> getSSLCertificates(url.get()));
 
     }
 }
