@@ -4,20 +4,33 @@ import java.net.URL;
 import java.security.cert.Certificate;
 
 import static main.InputHandler.*;
-import static main.SSLCertificateReader.printInfoOfSSLCertificates;
-import static main.SSLCertificateReader.readAndReturnSSLCertificates;
+import static main.InputHandler.getNewURLFromUser;
+import static main.SSLCertificateHelper.printInfoOfSSLCertificates;
+import static main.SSLCertificateHelper.getSSLCertificates;
 
 public class Application {
 
     public static void main(String[] args) {
-        printInputInstructions(true);
-        URL url = getValidURLFromUser();
-        Certificate[] certificates = readAndReturnSSLCertificates(url);
+
+        printWelcomeLine();
+        URL url = getURLFromUser();
+        Certificate[] certificates = getSSLCertificates(url);
         while (certificates.length == 0) {
-            printInputInstructions(false);
-            url = getValidURLFromUser();
-            certificates = readAndReturnSSLCertificates(url);
+            url = getNewURLFromUser();
+            certificates = getSSLCertificates(url);
         }
         printInfoOfSSLCertificates(certificates);
+        printInputInstructionsEnd();
+        boolean userWantsToContinue = checkIfUserWantsToContinue();
+
+        while (userWantsToContinue) {
+            printInputInstructionsBasic();
+            url = getURLFromUser();
+            certificates = getSSLCertificates(url);
+            printInfoOfSSLCertificates(certificates);
+            printInputInstructionsEnd();
+            userWantsToContinue = checkIfUserWantsToContinue();
+        }
     }
+
 }
