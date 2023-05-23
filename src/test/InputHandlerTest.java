@@ -1,15 +1,15 @@
 package test;
 
+import main.InputHandler;
+import main.exception.InvalidURIException;
+import main.exception.InvalidURLException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
+import java.io.*;
 import java.net.URL;
 import java.util.Scanner;
-import java.util.concurrent.atomic.AtomicReference;
 
 import static main.InputHandler.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -17,43 +17,98 @@ import static org.junit.jupiter.api.Assertions.*;
 class InputHandlerTest {
 
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-    private static final PrintStream actualOut = System.out;
 
-    private static final String TEST_INPUT = "Some input String.";
+    private static final String VALID_INPUT = "www.swisscom.ch\n";
+    private static final String EXPECTED_URL = "https://www.swisscom.ch";
+    private static final InputStream ORIGINAL_IN = System.in;
 
     @BeforeEach
     void setUpStreams() {
         outContent.reset();
         System.setOut(new PrintStream(outContent));
-        ByteArrayInputStream in = new ByteArrayInputStream(TEST_INPUT.getBytes());
-        setScanner(new Scanner(in));
+
+        InputStream in = new ByteArrayInputStream(VALID_INPUT.getBytes());
+        System.setIn(in);
+        setScanner(new Scanner(System.in));
     }
 
     @AfterEach
     void restoreStreams() {
-        System.setOut(actualOut);
+        System.setIn(ORIGINAL_IN);
     }
 
     @Test
-    void testLogInputInstructions() {
-        printInputInstructionsStart();
-        assertTrue(outContent.toString().contains(
-                "Welcome to the SSL certificate reader! :-)\n" +
-                        "Please enter a URL to retrieve its SSL certificate information:"));
+    void testLogInputInstructionsStart() {
+        printWelcomeLine();
+        assertTrue(outContent.toString().contains("Welcome to the SSL certificate reader! :-)\n"));
+    }
+
+    @Test
+    void testLogInputInstructionsBasic() {
+        printInputInstructionsBasic();
+        assertTrue(outContent.toString().contains("""
+                        Please enter a URL to retrieve its SSL certificate information:
+                        https://"""));
+    }
+
+    @Test
+    void testLogInputInstructionsWrongURL() {
+        printInputInstructionsWrongURL();
+        assertTrue(outContent.toString().contains("""
+                        Seems that there could be no SSL certificates read...
+                        Maybe the URL is invalid.
+                        Please enter another URL:
+                        https://"""));
+    }
+
+    @Test
+    void testLogInputInstructionsEnd() {
+        printInputInstructionsEnd();
+        assertTrue(outContent.toString().contains("Would you like to enter another URL? (y/n)\n"));
+    }
+
+    @Test
+    void testCheckIfUserWantsToContinue() {
+        String continueString = "notYorN\ny\n";
+        InputStream in = new ByteArrayInputStream(continueString.getBytes());
+        System.setIn(in);
+        InputHandler.setScanner(new Scanner(System.in));
+
+        assertTrue(checkIfUserWantsToContinue());
+        assertTrue(outContent.toString().contains("Please only enter 'y' or 'n'"));
+
     }
 
     @Test
     void testGetValidURLFromUser() {
+        URL url = getURLFromUser();
+        assertNotNull(url);
+        assertEquals(EXPECTED_URL, url.toString());
+    }
 
-        ByteArrayInputStream in = new ByteArrayInputStream((
-                "invalid\nstill invalid\nhttps://www.swisscom.ch").getBytes());
-        setScanner(new Scanner(in));
+    @Test
+    void testGetURLFromStringValidURL() {
+        URL url = stringToURL(EXPECTED_URL);
+        assertNotNull(url);
+        assertEquals(EXPECTED_URL, url.toString());
+    }
 
-        AtomicReference<URL> url = new AtomicReference<>();
-        assertDoesNotThrow(() -> url.set(getValidURLFromUser()));
+    @Test
+    void testGetURLFromStringInvalidURL() {
+        assertThrows(InvalidURLException.class, () ->
+            stringToURL("htt://www.swisscom.ch"));
+    }
 
-        assertTrue(outContent.toString().contains("Please enter a new URL:"));
-        assertEquals("https://www.swisscom.ch", url.get().toString());
+    @Test
+    void testGetURLFromStringInvalidURI() {
+        assertThrows(InvalidURIException.class, () ->
+            stringToURL("https://www.swisscom.ch/abc|def"));
+    }
+
+    @Test
+    void testGetURLFromStringUnknownError() {
+        assertThrows(RuntimeException.class, () ->
+            stringToURL(null));
     }
 
 }

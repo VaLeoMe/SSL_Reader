@@ -9,10 +9,10 @@ import java.net.URL;
 import java.security.cert.Certificate;
 import java.util.concurrent.atomic.AtomicReference;
 
-import static main.SSLCertificateReader.*;
+import static main.SSLCertificateHelper.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-class SSLCertificateReaderTest {
+class SSLCertificateHelperTest {
 
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
 
@@ -25,26 +25,26 @@ class SSLCertificateReaderTest {
     }
 
     @Test
-    void testReadAndReturnSSLCertificatesValidURL() {
+    void testGetSSLCertificatesValidURL() {
 
         AtomicReference<URL> url = new AtomicReference<>();
         AtomicReference<Certificate[]> certificates = new AtomicReference<>();
 
         assertDoesNotThrow(() -> url.set(new URL("https://www.swisscom.ch")));
-        assertDoesNotThrow(() -> certificates.set(readAndReturnSSLCertificates(url.get())));
+        assertDoesNotThrow(() -> certificates.set(getSSLCertificates(url.get())));
 
         assertTrue(certificates.get().length > 0);
 
     }
 
     @Test
-    void testReadAndReturnSSLCertificatesInvalidURL() {
+    void testGetSSLCertificatesInvalidURL() {
 
         AtomicReference<URL> url = new AtomicReference<>();
         AtomicReference<Certificate[]> certificates = new AtomicReference<>();
 
-        assertDoesNotThrow(() -> url.set(new URL("https://www.notswisscom.ch")));
-        assertDoesNotThrow(() -> certificates.set(readAndReturnSSLCertificates(url.get())));
+        assertDoesNotThrow(() -> url.set(new URL("https://www300.swisscom.ch")));
+        assertDoesNotThrow(() -> certificates.set(getSSLCertificates(url.get())));
 
         assertEquals(0, certificates.get().length);
 

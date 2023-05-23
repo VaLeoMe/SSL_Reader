@@ -34,23 +34,7 @@ class ApplicationIntegrationTest {
 
     @Test
     void testMainSwisscom() {
-        String testUrl = "https://www.swisscom.ch\n";
-        InputStream in = new ByteArrayInputStream(testUrl.getBytes());
-        System.setIn(in);
-        InputHandler.setScanner(new Scanner(System.in));
-
-        Application.main(new String[0]);
-
-        assertTrue(outContent.toString().contains("Common Name:"));
-        assertTrue(outContent.toString().contains("Issuer:"));
-        assertTrue(outContent.toString().contains("Signature:"));
-        assertTrue(outContent.toString().contains("Key Usage:"));
-        assertTrue(outContent.toString().contains("Public Key:"));
-    }
-
-    @Test
-    void testMainYoutube() {
-        String testUrl = "https://www300.youtube.com\nhttps://www.youtube.com\n";
+        String testUrl = "www300.swisscom.com\nwww1.swisscom.com\ny\nwww1.swisscom.com\nn\n";
         InputStream in = new ByteArrayInputStream(testUrl.getBytes());
         System.setIn(in);
         InputHandler.setScanner(new Scanner(System.in));
