@@ -26,7 +26,7 @@ public class SSLCertificateHelper {
         } catch (UnknownHostException e) {
             throw new RuntimeException("The host '" + e.getMessage() + "' is unknown.");
         } catch (Exception e) {
-            throw new RuntimeException(e.getMessage());
+            throw new RuntimeException(e.getMessage(), e);
         }
         return certificates;
     }
