@@ -20,7 +20,7 @@ public class SSLCertificateHelper {
             conn.connect();
             certificates = conn.getServerCertificates();
         } catch (Exception e) {
-            new RuntimeException(e.getMessage());
+            throw new RuntimeException(e.getMessage());
         }
         return certificates;
     }

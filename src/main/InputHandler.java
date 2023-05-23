@@ -13,6 +13,7 @@ import java.util.Scanner;
 public class InputHandler {
 
     private static Scanner in = new Scanner(System.in);
+    private static final String HTTPS_PREFIX = "https://";
 
     private InputHandler() {}
 
@@ -26,14 +27,14 @@ public class InputHandler {
 
     public static void printInputInstructionsBasic() {
         System.out.println("Please enter a URL to retrieve its SSL certificate information:");
-        System.out.print("https://");
+        System.out.print(HTTPS_PREFIX);
     }
 
     public static void printInputInstructionsWrongURL() {
         System.out.println("Seems that there could be no SSL certificates read...");
         System.out.println("Maybe the URL is invalid.");
         System.out.println("Please enter another URL:");
-        System.out.print("https://");
+        System.out.print(HTTPS_PREFIX);
     }
 
     public static void printInputInstructionsEnd() {
@@ -54,7 +55,7 @@ public class InputHandler {
 
     public static URL getURLFromUser() {
 
-        String userInput = "https://";
+        String userInput = HTTPS_PREFIX;
         userInput += getNewUserInput();
         URL url = null;
 
