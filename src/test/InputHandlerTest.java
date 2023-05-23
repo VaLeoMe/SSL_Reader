@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class InputHandlerTest {
 
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-    private final PrintStream actualOut = System.out;
+    private static final PrintStream actualOut = System.out;
 
     private static final String TEST_INPUT = "Some input String.";
 
@@ -36,7 +36,7 @@ class InputHandlerTest {
 
     @Test
     void testLogInputInstructions() {
-        printInputInstructions(true);
+        printInputInstructionsStart();
         assertTrue(outContent.toString().contains(
                 "Welcome to the SSL certificate reader! :-)\n" +
                         "Please enter a URL to retrieve its SSL certificate information:"));

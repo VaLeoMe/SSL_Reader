@@ -7,6 +7,7 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.Objects;
 import java.util.Scanner;
 
 public class InputHandler {
@@ -19,20 +20,44 @@ public class InputHandler {
         in = scanner;
     }
 
-    public static void printInputInstructions(boolean start) {
-        if (start) {
-            System.out.println("Welcome to the SSL certificate reader! :-)");
-            System.out.println("Please enter a URL to retrieve its SSL certificate information:");
-        } else {
-            System.out.println("Seems that there could be no SSL certificates read...");
-            System.out.println("Maybe the URL is invalid.");
-            System.out.println("Please enter another URL:");
+    public static void printInputInstructionsStart() {
+        System.out.println("Welcome to the SSL certificate reader! :-)");
+        System.out.println("Please enter a URL to retrieve its SSL certificate information:");
+        System.out.print("https://");
+    }
+
+    public static void printInputInstructionsWrongURL() {
+        System.out.println("Seems that there could be no SSL certificates read...");
+        System.out.println("Maybe the URL is invalid.");
+        System.out.println("Please enter another URL:");
+        System.out.print("https://");
+    }
+
+    public static void printInputInstructionsEnd() {
+        System.out.println("Would you like to enter another URL? (y/n)");
+    }
+
+    public static void printInputInstructionsContinue() {
+        System.out.println("Please enter a URL to retrieve its SSL certificate information:");
+        System.out.print("https://");
+    }
+
+    public static boolean checkIfUserWantsToContinue() {
+
+        String userInput = getNewUserInput();
+
+        while (!Objects.equals(userInput, "y") && !Objects.equals(userInput, "n")) {
+            System.out.println("Please only enter a 'y' or a 'n'");
+            userInput = getNewUserInput();
         }
+
+        return Objects.equals(userInput, "y");
     }
 
     public static URL getValidURLFromUser() {
 
-        String userInput = getNewUserInput();
+        String userInput = "https://";
+        userInput += getNewUserInput();
         URL url = null;
 
         while (url == null) {

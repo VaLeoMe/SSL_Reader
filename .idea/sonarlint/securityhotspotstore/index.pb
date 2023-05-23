@@ -1,8 +1,6 @@
 
 >
 SSL_Reader.iml,4/3/43790496fb3b976488135b66aabaa5015ef3a26c
-9
-	README.md,8/e/8ec9a00bfd09b3190ac6b22251dbb1aa95a0579d
 Å
 Q.idea/sonarlint/securityhotspotstore/4/3/43790496fb3b976488135b66aabaa5015ef3a26c,1/c/1c8db2787af795f0bc73d68da9ba15cd410e4d36
 Å
@@ -17,9 +15,3 @@ G.idea/sonarlint/issuestore/4/3/43790496fb3b976488135b66aabaa5015ef3a26c,9/2/92
 -.idea/sonarlint/securityhotspotstore/index.pb,8/8/88a9255124c95bdc913197c120a8d560edc59c8e
 S
 #.idea/sonarlint/issuestore/index.pb,9/f/9fe84ebb15faf917b7def6236dba604453cc61e0
-V
-&src/test/SSLCertificateReaderTest.java,b/d/bd07d019df4227a3f39617f3d9fae40680490de4
-[
-+src/main/exception/InvalidURLException.java,5/e/5e0d1cb8749ac63192c3c4048c413e0ce51c6229
-[
-+src/main/exception/InvalidURIException.java,d/8/d8639686fc8a5fc6d11fb9594ae4296ffe1facf3
