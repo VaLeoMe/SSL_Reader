@@ -25,7 +25,7 @@ class SSLCertificateReaderTest {
     }
 
     @Test
-    void test_readAndReturnSSLCertificates_validURL() {
+    void testReadAndReturnSSLCertificatesValidURL() {
 
         AtomicReference<URL> url = new AtomicReference<>();
         AtomicReference<Certificate[]> certificates = new AtomicReference<>();
@@ -38,7 +38,7 @@ class SSLCertificateReaderTest {
     }
 
     @Test
-    void test_readAndReturnSSLCertificates_invalidURL() {
+    void testReadAndReturnSSLCertificatesInvalidURL() {
 
         AtomicReference<URL> url = new AtomicReference<>();
         AtomicReference<Certificate[]> certificates = new AtomicReference<>();

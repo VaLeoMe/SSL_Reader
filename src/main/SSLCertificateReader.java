@@ -37,19 +37,20 @@ public class SSLCertificateReader {
     }
 
     private static void printCertificateInfo(X509Certificate certificate) {
-        System.out.printf("%-19s%-36s%n", "Common Name:", getCommonName(certificate));
-        System.out.printf("%-19s%-36s%n", "", "");
-        System.out.printf("%-19s%-36s%n", "Issuer:", certificate.getIssuerX500Principal().getName());
-        System.out.printf("%-19s%-36s%n", "", "");
+        String outLiteral = "%-19s%-36s%n";
+        System.out.printf(outLiteral, "Common Name:", getCommonName(certificate));
+        System.out.printf(outLiteral, "", "");
+        System.out.printf(outLiteral, "Issuer:", certificate.getIssuerX500Principal().getName());
+        System.out.printf(outLiteral, "", "");
         System.out.printf("%-19s%2td.%2$tm.%2$ty - %3$td.%3$tm.%3$ty %n", "Validity Period:", certificate.getNotBefore(), certificate.getNotAfter());
-        System.out.printf("%-19s%-36s%n", "", "");
-        System.out.printf("%-19s%-36s%n", "Signature:", certificate.getSignature());
-        System.out.printf("%-19s%-36s%n", "", "");
-        System.out.printf("%-19s%-36s%n", "Alternative Names:", getSubjectAlternativeNames(certificate));
-        System.out.printf("%-19s%-36s%n", "", "");
-        System.out.printf("%-19s%-36s%n", "Key Usage:", getKeyUsage(certificate));
-        System.out.printf("%-19s%-36s%n", "", "");
-        System.out.printf("%-19s%-36s%n", "Public Key:", certificate.getPublicKey());
+        System.out.printf(outLiteral, "", "");
+        System.out.printf(outLiteral, "Signature:", certificate.getSignature());
+        System.out.printf(outLiteral, "", "");
+        System.out.printf(outLiteral, "Alternative Names:", getSubjectAlternativeNames(certificate));
+        System.out.printf(outLiteral, "", "");
+        System.out.printf(outLiteral, "Key Usage:", getKeyUsage(certificate));
+        System.out.printf(outLiteral, "", "");
+        System.out.printf(outLiteral, "Public Key:", certificate.getPublicKey());
     }
 
     private static String getCommonName(X509Certificate certificate) {
