@@ -21,6 +21,7 @@ class InputHandlerTest {
     private static final String VALID_INPUT = "www.swisscom.ch\n";
     private static final String EXPECTED_URL = "https://www.swisscom.ch";
     private static final InputStream ORIGINAL_IN = System.in;
+    private static final String HTTPS_PREFIX = "https://";
 
     @BeforeEach
     void setUpStreams() {
@@ -38,33 +39,38 @@ class InputHandlerTest {
     }
 
     @Test
-    void testLogInputInstructionsStart() {
+    void testPrintWelcomeLine() {
         printWelcomeLine();
-        assertTrue(outContent.toString().contains("Welcome to the SSL certificate reader! :-)\n"));
+        String expectedOutput = "Welcome to the SSL certificate reader! :-)" + System.lineSeparator();
+        assertEquals(expectedOutput, outContent.toString());
     }
 
     @Test
-    void testLogInputInstructionsBasic() {
+    void testPrintInputInstructionsBasic() {
         printInputInstructionsBasic();
         assertTrue(outContent.toString().contains("""
                         Please enter a URL to retrieve its SSL certificate information:
                         https://"""));
+        String expectedOutput = "Please enter a URL to retrieve its SSL certificate information:" + System.lineSeparator()
+                + HTTPS_PREFIX;
+        assertEquals(expectedOutput, outContent.toString());
     }
 
     @Test
-    void testLogInputInstructionsWrongURL() {
+    void testPrintInputInstructionsWrongURL() {
         printInputInstructionsWrongURL();
-        assertTrue(outContent.toString().contains("""
-                        Seems that there could be no SSL certificates read...
-                        Maybe the URL is invalid.
-                        Please enter another URL:
-                        https://"""));
+        String expectedOutput = "Seems that there could be no SSL certificates read..." + System.lineSeparator()
+                + "Maybe the URL is invalid." + System.lineSeparator()
+                + "Please enter another URL:" + System.lineSeparator()
+                + HTTPS_PREFIX;
+        assertEquals(expectedOutput, outContent.toString());
     }
 
     @Test
-    void testLogInputInstructionsEnd() {
+    void testPrintInputInstructionsEnd() {
         printInputInstructionsEnd();
-        assertTrue(outContent.toString().contains("Would you like to enter another URL? (y/n)\n"));
+        String expectedOutput = "Would you like to enter another URL? (y/n)" + System.lineSeparator();
+        assertEquals(expectedOutput, outContent.toString());
     }
 
     @Test
