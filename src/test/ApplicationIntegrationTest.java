@@ -1,6 +1,7 @@
 package test;
 
 import main.Application;
+import main.InputHandler;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -9,6 +10,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.PrintStream;
+import java.util.Scanner;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -31,10 +33,11 @@ class ApplicationIntegrationTest {
     }
 
     @Test
-    void testMain_Swisscom() {
+    void testMainSwisscom() {
         String testUrl = "https://www.swisscom.ch\n";
         InputStream in = new ByteArrayInputStream(testUrl.getBytes());
         System.setIn(in);
+        InputHandler.setScanner(new Scanner(System.in));
 
         Application.main(new String[0]);
 
@@ -45,14 +48,19 @@ class ApplicationIntegrationTest {
         assertTrue(outContent.toString().contains("Public Key:"));
     }
 
-    //@Test
-    //void testMain_Youtube() {
-    //    String testUrl = "https://youtube.com\n";
-    //    InputStream in = new ByteArrayInputStream(testUrl.getBytes());
-    //    System.setIn(in);
-//
-    //    Application.main(new String[0]);
-//
-    //    assertTrue(outContent.toString().contains("Public Key:"));
-    //}
+    @Test
+    void testMainYoutube() {
+        String testUrl = "https://www300.youtube.com\nhttps://www.youtube.com\n";
+        InputStream in = new ByteArrayInputStream(testUrl.getBytes());
+        System.setIn(in);
+        InputHandler.setScanner(new Scanner(System.in));
+
+        Application.main(new String[0]);
+
+        assertTrue(outContent.toString().contains("Common Name:"));
+        assertTrue(outContent.toString().contains("Issuer:"));
+        assertTrue(outContent.toString().contains("Signature:"));
+        assertTrue(outContent.toString().contains("Key Usage:"));
+        assertTrue(outContent.toString().contains("Public Key:"));
+    }
 }
