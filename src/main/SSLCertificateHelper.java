@@ -9,11 +9,11 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class SSLCertificateReader {
+public class SSLCertificateHelper {
 
-    private SSLCertificateReader() {}
+    private SSLCertificateHelper() {}
 
-    public static Certificate[] readAndReturnSSLCertificates(URL url) {
+    public static Certificate[] getSSLCertificates(URL url) {
         Certificate[] certificates = new Certificate[0];
         try {
             HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();

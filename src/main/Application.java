@@ -4,36 +4,33 @@ import java.net.URL;
 import java.security.cert.Certificate;
 
 import static main.InputHandler.*;
-import static main.SSLCertificateReader.printInfoOfSSLCertificates;
-import static main.SSLCertificateReader.readAndReturnSSLCertificates;
+import static main.InputHandler.getNewURLFromUser;
+import static main.SSLCertificateHelper.printInfoOfSSLCertificates;
+import static main.SSLCertificateHelper.getSSLCertificates;
 
 public class Application {
 
     public static void main(String[] args) {
-        printInputInstructionsStart();
-        URL url = getValidURLFromUser();
-        Certificate[] certificates = readAndReturnSSLCertificates(url);
+
+        printWelcomeLine();
+        URL url = getURLFromUser();
+        Certificate[] certificates = getSSLCertificates(url);
         while (certificates.length == 0) {
-            printInputInstructionsWrongURL();
-            url = getValidURLFromUser();
-            certificates = readAndReturnSSLCertificates(url);
+            url = getNewURLFromUser();
+            certificates = getSSLCertificates(url);
         }
         printInfoOfSSLCertificates(certificates);
-
         printInputInstructionsEnd();
         boolean userWantsToContinue = checkIfUserWantsToContinue();
+
         while (userWantsToContinue) {
-            printInputInstructionsContinue();
-            url = getValidURLFromUser();
-            certificates = readAndReturnSSLCertificates(url);
-            while (certificates.length == 0) {
-                printInputInstructionsWrongURL();
-                url = getValidURLFromUser();
-                certificates = readAndReturnSSLCertificates(url);
-            }
+            printInputInstructionsBasic();
+            url = getURLFromUser();
+            certificates = getSSLCertificates(url);
             printInfoOfSSLCertificates(certificates);
             printInputInstructionsEnd();
             userWantsToContinue = checkIfUserWantsToContinue();
         }
     }
+
 }

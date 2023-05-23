@@ -20,8 +20,11 @@ public class InputHandler {
         in = scanner;
     }
 
-    public static void printInputInstructionsStart() {
+    public static void printWelcomeLine() {
         System.out.println("Welcome to the SSL certificate reader! :-)");
+    }
+
+    public static void printInputInstructionsBasic() {
         System.out.println("Please enter a URL to retrieve its SSL certificate information:");
         System.out.print("https://");
     }
@@ -37,24 +40,19 @@ public class InputHandler {
         System.out.println("Would you like to enter another URL? (y/n)");
     }
 
-    public static void printInputInstructionsContinue() {
-        System.out.println("Please enter a URL to retrieve its SSL certificate information:");
-        System.out.print("https://");
-    }
-
     public static boolean checkIfUserWantsToContinue() {
 
         String userInput = getNewUserInput();
 
         while (!Objects.equals(userInput, "y") && !Objects.equals(userInput, "n")) {
-            System.out.println("Please only enter a 'y' or a 'n'");
+            System.out.println("Please only enter 'y' or 'n'");
             userInput = getNewUserInput();
         }
 
         return Objects.equals(userInput, "y");
     }
 
-    public static URL getValidURLFromUser() {
+    public static URL getURLFromUser() {
 
         String userInput = "https://";
         userInput += getNewUserInput();
@@ -62,7 +60,7 @@ public class InputHandler {
 
         while (url == null) {
             try {
-                url = getURLFromString(userInput);
+                url = stringToURL(userInput);
             } catch (Exception e) {
                 System.out.println(e.getMessage());
                 System.out.println("Please enter a new URL:");
@@ -72,12 +70,14 @@ public class InputHandler {
         return url;
     }
 
-    public static URL getURLFromString(String urlString) {
+    public static URL getNewURLFromUser() {
+        printInputInstructionsWrongURL();
+        return getURLFromUser();
+    }
+
+    public static URL stringToURL(String urlString) {
         URL url;
         try {
-            if (!urlString.startsWith("https://")) {
-                throw new MalformedURLException();
-            }
             url = new URI(urlString).toURL();
             return url;
         } catch (MalformedURLException e) {
