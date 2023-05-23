@@ -2,11 +2,13 @@ package main;
 
 import javax.net.ssl.HttpsURLConnection;
 import java.net.URL;
+import java.net.UnknownHostException;
 import java.security.cert.Certificate;
 import java.security.cert.CertificateParsingException;
 import java.security.cert.X509Certificate;
 import java.util.Collection;
 import java.util.List;
+import java.util.concurrent.TimeoutException;
 import java.util.stream.Collectors;
 
 public class SSLCertificateHelper {
@@ -17,8 +19,12 @@ public class SSLCertificateHelper {
         Certificate[] certificates = new Certificate[0];
         try {
             HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
+            conn.setConnectTimeout(5000);
+            conn.setReadTimeout(5000);
             conn.connect();
             certificates = conn.getServerCertificates();
+        } catch (UnknownHostException e) {
+            throw new RuntimeException("The host '" + e.getMessage() + "' is unknown.");
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }
