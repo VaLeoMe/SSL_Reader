@@ -8,7 +8,6 @@ import java.io.PrintStream;
 import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.security.cert.Certificate;
-import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicReference;
 
 import static main.SSLCertificateHelper.*;

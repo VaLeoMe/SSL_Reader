@@ -4,7 +4,6 @@ import java.net.URL;
 import java.security.cert.Certificate;
 
 import static main.InputHandler.*;
-import static main.InputHandler.getNewURLFromUser;
 import static main.SSLCertificateHelper.printInfoOfSSLCertificates;
 import static main.SSLCertificateHelper.getSSLCertificates;
 
