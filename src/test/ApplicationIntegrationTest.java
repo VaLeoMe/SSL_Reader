@@ -33,7 +33,7 @@ class ApplicationIntegrationTest {
     }
 
     @Test
-    void testMainSwisscom() {
+    void testMain() {
         String testUrl = "www300.swisscom.com\nwww1.swisscom.com\ny\nwww1.swisscom.com\nn\n";
         InputStream in = new ByteArrayInputStream(testUrl.getBytes());
         System.setIn(in);
