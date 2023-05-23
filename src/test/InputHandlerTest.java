@@ -48,9 +48,6 @@ class InputHandlerTest {
     @Test
     void testPrintInputInstructionsBasic() {
         printInputInstructionsBasic();
-        assertTrue(outContent.toString().contains("""
-                        Please enter a URL to retrieve its SSL certificate information:
-                        https://"""));
         String expectedOutput = "Please enter a URL to retrieve its SSL certificate information:" + System.lineSeparator()
                 + HTTPS_PREFIX;
         assertEquals(expectedOutput, outContent.toString());
