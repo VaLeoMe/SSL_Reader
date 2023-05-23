@@ -56,10 +56,6 @@ public class SSLCertificateReader {
         return certificate.getSubjectX500Principal().getName();
     }
 
-    private static void printSubjectAlternativeNames(X509Certificate certificate) {
-
-    }
-
     private static String getSubjectAlternativeNames(X509Certificate certificate) {
         try {
             Collection<List<?>> altNames = certificate.getSubjectAlternativeNames();

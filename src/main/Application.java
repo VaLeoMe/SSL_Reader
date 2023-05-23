@@ -10,9 +10,14 @@ import static main.SSLCertificateReader.readAndReturnSSLCertificates;
 public class Application {
 
     public static void main(String[] args) {
-        printInputInstructions();
+        printInputInstructions(true);
         URL url = getValidURLFromUser();
         Certificate[] certificates = readAndReturnSSLCertificates(url);
+        while (certificates.length == 0) {
+            printInputInstructions(false);
+            url = getValidURLFromUser();
+            certificates = readAndReturnSSLCertificates(url);
+        }
         printInfoOfSSLCertificates(certificates);
     }
 }

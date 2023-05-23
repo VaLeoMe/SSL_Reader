@@ -36,14 +36,14 @@ class InputHandlerTest {
 
     @Test
     void testLogInputInstructions() {
-        printInputInstructions();
+        printInputInstructions(true);
         assertTrue(outContent.toString().contains(
                 "Welcome to the SSL certificate reader! :-)\n" +
                         "Please enter a URL to retrieve its SSL certificate information:"));
     }
 
     @Test
-    void test_getValidURLFromUser() {
+    void testGetValidURLFromUser() {
 
         ByteArrayInputStream in = new ByteArrayInputStream((
                 "invalid\nstill invalid\nhttps://www.swisscom.ch").getBytes());
