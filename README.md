@@ -8,9 +8,9 @@ When provided with a website's URL, SSL Reader establishes a secure connection t
 
 This can be incredibly useful for a number of scenarios, such as:
 
-    Verifying the authenticity and validity of the certificates a site uses.
-    Troubleshooting connection or security issues related to SSL/TLS.
-    Learning more about the security measures a site has implemented.
+- Verifying the authenticity and validity of the certificates a site uses.
+- Troubleshooting connection or security issues related to SSL/TLS.
+- Learning more about the security measures a site has implemented.
 
 ## Quick Start
 
