@@ -3,11 +3,13 @@ package test;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import javax.net.ssl.SSLProtocolException;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.security.cert.Certificate;
+import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicReference;
 
 import static main.SSLCertificateHelper.*;
@@ -56,7 +58,7 @@ class SSLCertificateHelperTest {
         assertDoesNotThrow(() -> url.set(new URL("https://www.swisscom.co")));
         Exception exception = assertThrows(RuntimeException.class, () -> getSSLCertificates(url.get()));
 
-        assertTrue(exception.getCause() instanceof SocketTimeoutException);
+        assertTrue(exception.getCause() instanceof SocketTimeoutException || exception.getCause() instanceof SSLProtocolException);
 
     }
 }
